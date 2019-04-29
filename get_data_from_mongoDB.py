@@ -42,3 +42,14 @@ pro = ts.pro_api()
 data = pro.daily(ts_code=symbol,start_date=Start_Date,end_date=End_Date)
 #data2 = ts.get_hist_data('300136',start='2019-01-01',end='2019-04-10')
 #data3 = ts.get_k_data('300136',start='2019-01-01',end='2019-04-10')
+
+def insertToMongoDB(collection):
+    with open('stock_daily_data.csv','r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        counts = 0
+        for each in reader:
+            collection.insert(each)
+            counts += 1
+            print('成功添加了%s条数据'%counts)
+            
+insertToMongoDB(col)
